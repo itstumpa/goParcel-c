@@ -22,7 +22,6 @@ import Register from "../Pages/Auth/Register/Register.jsx";
 import ForgotPassword from "../Pages/Auth/ForgotPassword.jsx";
 import ResetPassword from "../Pages/Auth/ResetPassword.jsx";
 
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -34,9 +33,6 @@ const router = createBrowserRouter([
       { path: "/about", element: <About /> },
       { path: "/privacy", element: <PrivacyPolicy /> },
       { path: "/pricing", element: <Pricing /> },
-      { path: "/be-a-rider", element: <BeARider /> },
-      // { path: "/forgot-password", element: <ForgotPassword /> },
-      // { path: "/reset-password", element: <ResetPassword /> },
       { path: "/services", element: <Services /> },
       {
         path: "/coverage",
@@ -64,6 +60,8 @@ const router = createBrowserRouter([
     element: <PrivateRoute />,
     children: [
       { path: "myprofile", element: <MyProfile /> },
+      { path: "/be-a-rider", element: <BeARider /> },
+
       // { path: "dashboard", element: <Dashboard /> },
     ],
   },
