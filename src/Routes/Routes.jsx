@@ -1,5 +1,5 @@
 // routes/routeConfig.js
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 import PrivateRoute from "./PrivateRoute.jsx";
 
 // Layouts
@@ -21,25 +21,36 @@ import Login from "../Pages/Auth/Login/Login.jsx";
 import Register from "../Pages/Auth/Register/Register.jsx";
 import ForgotPassword from "../Pages/Auth/ForgotPassword.jsx";
 import ResetPassword from "../Pages/Auth/ResetPassword.jsx";
+import SendParcel from "../Pages/SendParcel/SendParcel.jsx";
 
+
+// Route definitions // Public routes
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayouts />,
     errorElement: <Error />,
-    children: [
-      // Public routes
+    children: [      
       { index: true, element: <Home /> },
       { path: "/about", element: <About /> },
       { path: "/privacy", element: <PrivacyPolicy /> },
       { path: "/pricing", element: <Pricing /> },
       { path: "/services", element: <Services /> },
-      {
-        path: "/coverage",
-        element: <Coverage />,
+      {path: "/coverage",element: <Coverage />,
         loader: () =>
-          fetch("/public/serviceCenters.json").then((res) => res.json()),
+        fetch("/public/serviceCenters.json").then((res) => res.json()),
       },
+
+       // Protected routes 
+      { path: "/send-parcel", element: <PrivateRoute><SendParcel /></PrivateRoute>,
+         loader: () =>
+        fetch("/serviceCenters.json").then((res) => res.json()),
+       },
+
+       { path: "/myprofile", element: <PrivateRoute><MyProfile /></PrivateRoute>  },
+      { path: "/be-a-rider", element: <PrivateRoute><BeARider /></PrivateRoute> },
+
+      
     ],
   },
 
@@ -55,15 +66,11 @@ const router = createBrowserRouter([
     ],
   },
 
-  // Protected routes group
-  {
-    element: <PrivateRoute />,
-    children: [
-      { path: "myprofile", element: <MyProfile /> },
-      { path: "/be-a-rider", element: <BeARider /> },
 
-      // { path: "dashboard", element: <Dashboard /> },
-    ],
+  // Fallback route
+  {
+    path: "*",
+    element: <Navigate to="/" replace />,
   },
 ]);
 
