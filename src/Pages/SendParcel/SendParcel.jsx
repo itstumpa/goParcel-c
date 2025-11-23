@@ -2,6 +2,10 @@ import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
+
+
 
 const SendParcel = () => {
   const {
@@ -30,7 +34,8 @@ const SendParcel = () => {
       deliveryInstruction: "",
     },
   });
-
+  const axiosSecure = useAxiosSecure();
+const {user} = useAuth();
   const serviceCenters = useLoaderData() || [];
   // console.log(serviceCenters)
   const regionsDuplicate = serviceCenters.map((c) => c.region);
@@ -84,10 +89,10 @@ const SendParcel = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         // save the parcel info to the database
-        // axiosSecure.post('/parcels', data)
-        //     .then(res => {
-        //         console.log('after saving parcel', res.data);
-        //     })
+        axiosSecure.post('/parcels', data)
+            .then(res => {
+                console.log('after saving parcel', res.data);
+            })
         // Swal.fire({
         //     title: "Deleted!",
         //     text: "Your file has been deleted.",
@@ -210,6 +215,8 @@ const SendParcel = () => {
                           type="text"
                           placeholder="Sender Name"
                           {...register("senderName", { required: "Required" })}
+                        defaultValue={user?.displayName}
+
                           className={`input input-bordered w-full ${
                             errors.senderName ? "input-error" : ""
                           }`}
@@ -225,6 +232,7 @@ const SendParcel = () => {
                           type="text"
                           placeholder="Sender Email"
                           {...register("senderEmail", { required: "Required" })}
+                          defaultValue={user?.email}
                           className={`input input-bordered w-full ${
                             errors.senderEmail ? "input-error" : ""
                           }`}
