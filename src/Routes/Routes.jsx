@@ -22,6 +22,8 @@ import Register from "../Pages/Auth/Register/Register.jsx";
 import ForgotPassword from "../Pages/Auth/ForgotPassword.jsx";
 import ResetPassword from "../Pages/Auth/ResetPassword.jsx";
 import SendParcel from "../Pages/SendParcel/SendParcel.jsx";
+import DashBoardLayout from "../components/Layout/DashBoardLayout.jsx";
+import MyParcels from "../Pages/Dashboard/MyParcels/MyParcels.jsx";
 
 
 // Route definitions // Public routes
@@ -65,6 +67,34 @@ const router = createBrowserRouter([
       { path: "reset-password", element: <ResetPassword /> },
     ],
   },
+
+
+  // Dashboard routes
+  {
+    path: "dashboard",
+    element: <PrivateRoute> <DashBoardLayout></DashBoardLayout> </PrivateRoute>,
+    children: [
+      { path: "my-parcels", element: <MyParcels /> },
+      
+    ],
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   // Fallback route

@@ -11,6 +11,13 @@ const auth = getAuth(app);
 const Navbar = () => {
   const { user, logOut } = useAuth();
 
+{
+  user && <>
+              <NavLink to="/dashboard/my-parcels">My Parcels</NavLink>
+  
+  </>
+}
+
   // Logout handler
   const handleLogout = () => {
     logOut()
@@ -95,6 +102,8 @@ const Navbar = () => {
               <NavLink to="/about">About</NavLink>
               <NavLink to="/send-parcel">Send Parcel</NavLink>
               <NavLink to="/pricing">Pricing</NavLink>
+              <NavLink to="/dashboard/my-parcels">My Parcels</NavLink>
+
             </ul>
           </div>
 
