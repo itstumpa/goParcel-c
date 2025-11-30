@@ -24,6 +24,7 @@ import ResetPassword from "../Pages/Auth/ResetPassword.jsx";
 import SendParcel from "../Pages/SendParcel/SendParcel.jsx";
 import DashBoardLayout from "../components/Layout/DashBoardLayout.jsx";
 import MyParcels from "../Pages/Dashboard/MyParcels/MyParcels.jsx";
+import Payment from "../Pages/Dashboard/Payment/Payment.jsx";
 
 
 // Route definitions // Public routes
@@ -75,6 +76,8 @@ const router = createBrowserRouter([
     element: <PrivateRoute> <DashBoardLayout></DashBoardLayout> </PrivateRoute>,
     children: [
       { path: "my-parcels", element: <MyParcels /> },
+      // { path: "payment/:id", element: <Payment /> },
+      { path: "payment/:parcelId", element: <Payment /> },
       
     ],
   },

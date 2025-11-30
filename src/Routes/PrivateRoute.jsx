@@ -7,7 +7,9 @@ const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
 const location = useLocation();
   if (loading) {
-    return <div><span className="loading loading-ring loading-lg"></span></div>;
+    return <div>
+      <span className="loading loading-ring loading-lg"></span>
+      </div>;
   }
 
   // (no children), render Outlet

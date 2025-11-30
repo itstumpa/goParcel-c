@@ -4,14 +4,14 @@ import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
-
-
+import { useQueryClient } from "@tanstack/react-query";
 
 const SendParcel = () => {
   const {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -35,7 +35,9 @@ const SendParcel = () => {
     },
   });
   const axiosSecure = useAxiosSecure();
-const {user} = useAuth();
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+
   const serviceCenters = useLoaderData() || [];
   // console.log(serviceCenters)
   const regionsDuplicate = serviceCenters.map((c) => c.region);
@@ -77,6 +79,9 @@ const {user} = useAuth();
     }
 
     console.log("cost", cost);
+    (data.cost = cost), (data.status = "pending");
+    data.bookingDate = new Date().toISOString();
+    data.userEmail = user?.email;
 
     Swal.fire({
       title: "Agree with the Cost?",
@@ -89,15 +94,39 @@ const {user} = useAuth();
     }).then((result) => {
       if (result.isConfirmed) {
         // save the parcel info to the database
-        axiosSecure.post('/parcels', data)
-            .then(res => {
-                console.log('after saving parcel', res.data);
-            })
-        // Swal.fire({
-        //     title: "Deleted!",
-        //     text: "Your file has been deleted.",
-        //     icon: "success"
-        // });
+        axiosSecure
+          .post("/parcels", data)
+          .then((res) => {
+            console.log("after saving parcel", res.data);
+            if (res.data.insertedId) {
+              // ✅ Invalidate queries to refetch parcels
+              queryClient.invalidateQueries({
+                queryKey: ["myParcels", user?.email],
+              });
+
+              // ✅ Show success message
+              Swal.fire({
+                title: "Success!",
+                text: "Your parcel has been booked successfully.",
+                icon: "success",
+                confirmButtonText: "OK",
+              });
+
+              // ✅ Reset form
+              reset();
+            }
+          })
+          .catch((error) => {
+            console.error("Error saving parcel:", error);
+
+            // ✅ Show error message
+            Swal.fire({
+              title: "Error!",
+              text: "Failed to book parcel. Please try again.",
+              icon: "error",
+              confirmButtonText: "OK",
+            });
+          });
       }
     });
   };
@@ -215,8 +244,7 @@ const {user} = useAuth();
                           type="text"
                           placeholder="Sender Name"
                           {...register("senderName", { required: "Required" })}
-                        defaultValue={user?.displayName}
-
+                          defaultValue={user?.displayName}
                           className={`input input-bordered w-full ${
                             errors.senderName ? "input-error" : ""
                           }`}
