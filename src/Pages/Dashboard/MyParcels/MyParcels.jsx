@@ -67,6 +67,30 @@ const handleParcelDelete = async (id) => {
         });
     }
 };
+
+const handlePayment =async (parcel) => {
+  const paymentInfo = {
+    parcelId: parcel._id,
+    parcelName: parcel.parcelName,
+    cost: parcel.cost,
+    senderEmail: parcel.senderEmail,
+  };
+  console.log(paymentInfo)
+  const response = await
+  axiosSecure
+    .post("/create-checkout-session", paymentInfo)
+    .then((response) => {
+      if (response.data.url) {
+        // window.location.href = response.data.url;
+        window.location.assign(response.data.url);
+      }
+    })
+    .catch((error) => {
+      console.error("Error creating checkout session:", error);
+    });
+  };  
+
+
     return (
         <div>
             <h2>All of my parcels : {parcels.length}</h2>
@@ -94,9 +118,11 @@ const handleParcelDelete = async (id) => {
           {
             parcel.paymentStatus === 'paid' ? <span className='text-green-600 font-bold'>Paid</span> 
             : 
-            <Link to={`/dashboard/payment/${parcel._id}`}>
-            <button className='btn primary-btn btn-sm text-red-600 font-bold'>Pay</button>
-            </Link> 
+            // <Link to={`/dashboard/payment/${parcel._id}`}>
+            <button
+            onClick= {() => handlePayment(parcel)}
+            className='btn primary-btn btn-sm text-red-600 font-bold'>Pay</button>
+            // </Link> 
           }
         </td>
         <td>{parcel.deliveryStatus}</td>
@@ -104,7 +130,7 @@ const handleParcelDelete = async (id) => {
           <button className='btn btn-square hover:bg-gray-200'>
             <FileEdit className='w-6 h-6 '></FileEdit>
           </button>
-          <button className='btn btn-square hover:bg-gray-200  mx-2'>
+          <button className='btn  btn-square hover:bg-gray-200  mx-2'>
             <MagnetIcon className='w-6 h-6  '></MagnetIcon>
           </button>
           <button

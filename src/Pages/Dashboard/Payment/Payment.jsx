@@ -16,6 +16,27 @@ const Payment = () => {
     },
   });
 console.log(parcel)
+
+// const handlePayment =async () => {
+//   const paymentInfo = {
+//     parcelId: parcel._id,
+//     parcelName: parcel.parcelName,
+//     cost: parcel.cost,
+//     senderEmail: parcel.senderEmail,
+//   };
+//   const response = await
+//   axiosSecure
+//     .post("/create-checkout-session", paymentInfo)
+//     .then((response) => {
+//       if (response.data.url) {
+//         window.location.href = response.data.url;
+//       }
+//     })
+//     .catch((error) => {
+//       console.error("Error creating checkout session:", error);
+//     });
+//   };  
+
   if (isLoading) {
     <div>
       <span className="loading loading-ring loading-lg"></span>
@@ -23,8 +44,8 @@ console.log(parcel)
   }
   return (
     <div>
-      <h2>Please Pay for : {parcel?.parcelName}</h2>
-
+      <h2>Please Pay ${parcel?.cost} for : {parcel?.parcelName}</h2>
+{/* <button onClick={handlePayment} className="btn btn-primary">Pay</button> */}
 
     </div>
   );

@@ -25,6 +25,8 @@ import SendParcel from "../Pages/SendParcel/SendParcel.jsx";
 import DashBoardLayout from "../components/Layout/DashBoardLayout.jsx";
 import MyParcels from "../Pages/Dashboard/MyParcels/MyParcels.jsx";
 import Payment from "../Pages/Dashboard/Payment/Payment.jsx";
+import PaymentSuccess from "../Pages/Dashboard/Payment/PaymentSuccess.jsx";
+import PaymentCancel from "../Pages/Dashboard/Payment/PaymentCancel.jsx";
 
 
 // Route definitions // Public routes
@@ -78,6 +80,8 @@ const router = createBrowserRouter([
       { path: "my-parcels", element: <MyParcels /> },
       // { path: "payment/:id", element: <Payment /> },
       { path: "payment/:parcelId", element: <Payment /> },
+      { path: "payment-success", element: <PaymentSuccess /> },
+      { path: "payment-cancel", element: <PaymentCancel /> },
       
     ],
   },
