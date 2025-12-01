@@ -1,22 +1,23 @@
+import { getAuth } from "firebase/auth";
 import { Link, NavLink } from "react-router";
-import { getAuth, signOut } from "firebase/auth";
 
 import "../../App.css";
-import Logo from "../Logo/Logo";
 import app from "../../firebase/firebase.config";
 import useAuth from "../../hooks/useAuth";
+import Logo from "../Logo/Logo";
 
 const auth = getAuth(app);
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
 
-{
-  user && <>
-              <NavLink to="/dashboard/my-parcels">My Parcels</NavLink>
-  
-  </>
-}
+  {
+    user && (
+      <>
+        <NavLink to="/dashboard/my-parcels">My Parcels</NavLink>
+      </>
+    );
+  }
 
   // Logout handler
   const handleLogout = () => {
@@ -64,7 +65,6 @@ const Navbar = () => {
                 </li>
                 {!user ? (
                   <>
-                    {/* <li><NavLink to="/register">Register</NavLink></li> */}
                     <li>
                       <NavLink to="/login">Login</NavLink>
                     </li>
@@ -103,7 +103,6 @@ const Navbar = () => {
               <NavLink to="/send-parcel">Send Parcel</NavLink>
               <NavLink to="/pricing">Pricing</NavLink>
               <NavLink to="/dashboard/my-parcels">My Parcels</NavLink>
-
             </ul>
           </div>
 

@@ -1,13 +1,15 @@
-import React from "react";
+import React, { use } from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router";
 import axios from "axios";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const axiosSecure = useAxiosSecure();
   const {
     register,
     handleSubmit,
@@ -15,13 +17,10 @@ const Register = () => {
   } = useForm();
   const { registerUser, updateUserProfile } = useAuth();
   const handleRegistration = (data) => {
-    console.log(data.photo[0]);
     const profileImg = data.photo[0];
 
     registerUser(data.email, data.password)
-      .then((result) => {
-        console.log(result.user);
-
+      .then(() => {
         // store the image in form data
         const formData = new FormData();
         formData.append("image", profileImg);
@@ -31,13 +30,27 @@ const Register = () => {
           import.meta.env.VITE_image_host_key
         }`;
         axios.post(image_API_URL, formData).then((res) => {
-          console.log("after image upload", res.data.data.url);
+        const photoURL = res.data.data.url;
 
-          // update user profile to firebase
-
+        // create a user object to store in mongodb database 
+        const userInfo = {
+          name: data.name,
+          email: data.email,
+          photoURL: photoURL,
+          role: 'user'
+        }
+        axiosSecure.post('/users', userInfo)
+        .then((res) => {
+          if(res.data.insertedId){
+            console.log('new user added to database', res.data);
+            navigate(location?.state || '/' );
+          }
+        })
+        
+        // update user profile to firebase
           const userProfile = {
             displayName: data.name,
-            photoUR: res.data.data.url,
+            photoURL: photoURL,
           };
           updateUserProfile(userProfile).then(() => {
             console.log("user profie updated");
@@ -72,22 +85,7 @@ const Register = () => {
             <p className="text-gray-600">Register with goParcel</p>
           </div>
 
-          {/* photo */}
-          <div className="space-y-1">
-            <label className="block text-sm font-medium text-gray-700">
-              Photo
-            </label>
-            <input
-              type="file"
-              {...register("photo", { required: true })}
-              className="file-input w-full px-4 py-3 border border-gray-300 rounded-lg"
-              placeholder="Enter your photo"
-            />
-            {errors.text?.type === "required" && (
-              <p className="text-red-500 text-sm mt-1">Photo is required</p>
-            )}
-          </div>
-          {/* Name */}
+           {/* Name */}
           <div className="space-y-1">
             <label className="block text-sm font-medium text-gray-700">
               Name
@@ -102,6 +100,23 @@ const Register = () => {
               <p className="text-red-500 text-sm mt-1">Name is required</p>
             )}
           </div>
+
+          {/* photo */}
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-gray-700">
+              Photo
+            </label>
+            <input
+              type="file"
+              {...register("photo", { required: true })}
+              className="file-input h-14 w-full px-4 py-3 border border-gray-300 rounded-lg"
+              placeholder="Enter your photo"
+            />
+            {errors.text?.type === "required" && (
+              <p className="text-red-500 text-sm mt-1">Photo is required</p>
+            )}
+          </div>
+         
           {/* Email */}
           <div className="space-y-1">
             <label className="block text-sm font-medium text-gray-700">
