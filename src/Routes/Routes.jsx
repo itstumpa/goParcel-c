@@ -29,34 +29,55 @@ import PaymentSuccess from "../Pages/Dashboard/Payment/PaymentSuccess.jsx";
 import PaymentCancel from "../Pages/Dashboard/Payment/PaymentCancel.jsx";
 import PaymentsHistory from "../Pages/Dashboard/PaymentsHistory/PaymentsHistory.jsx";
 
-
 // Route definitions // Public routes
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayouts />,
     errorElement: <Error />,
-    children: [      
+    children: [
       { index: true, element: <Home /> },
       { path: "/about", element: <About /> },
       { path: "/privacy", element: <PrivacyPolicy /> },
       { path: "/pricing", element: <Pricing /> },
       { path: "/services", element: <Services /> },
-      {path: "/coverage",element: <Coverage />,
+      {
+        path: "/coverage",
+        element: <Coverage />,
         loader: () =>
-        fetch("/public/serviceCenters.json").then((res) => res.json()),
+          fetch("/serviceCenters.json").then((res) => res.json()),
       },
 
-       // Protected routes 
-      { path: "/send-parcel", element: <PrivateRoute><SendParcel /></PrivateRoute>,
-         loader: () =>
-        fetch("/serviceCenters.json").then((res) => res.json()),
-       },
-
-       { path: "/myprofile", element: <PrivateRoute><MyProfile /></PrivateRoute>  },
-      { path: "/be-a-rider", element: <PrivateRoute><BeARider /></PrivateRoute> },
-
+      // Protected routes
+      {
+        path: "be-a-rider",
+        element: (
+          <PrivateRoute>
+            <BeARider />
+          </PrivateRoute>
+        ),
+         loader: () => fetch("/serviceCenters.json").then((res) => res.json()),
       
+      },
+
+      {
+        path: "/send-parcel",
+        element: (
+          <PrivateRoute>
+            <SendParcel />
+          </PrivateRoute>
+        ),
+        loader: () => fetch("/serviceCenters.json").then((res) => res.json()),
+      },
+
+      {
+        path: "/myprofile",
+        element: (
+          <PrivateRoute>
+            <MyProfile />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
 
@@ -72,11 +93,15 @@ const router = createBrowserRouter([
     ],
   },
 
-
   // Dashboard routes
   {
     path: "dashboard",
-    element: <PrivateRoute> <DashBoardLayout></DashBoardLayout> </PrivateRoute>,
+    element: (
+      <PrivateRoute>
+        {" "}
+        <DashBoardLayout></DashBoardLayout>{" "}
+      </PrivateRoute>
+    ),
     children: [
       { path: "my-parcels", element: <MyParcels /> },
       // { path: "payment/:id", element: <Payment /> },
@@ -84,27 +109,8 @@ const router = createBrowserRouter([
       { path: "payment-success", element: <PaymentSuccess /> },
       { path: "payment-cancel", element: <PaymentCancel /> },
       { path: "payments-history", element: <PaymentsHistory /> },
-      
     ],
   },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   // Fallback route
   {

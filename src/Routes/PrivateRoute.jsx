@@ -17,7 +17,7 @@ const location = useLocation();
     return user ? <Outlet /> : <Navigate state ={location.pathname} to="/login" replace />;
   }
 
-  // (old way)
+ 
   return user ? children : <Navigate state ={location.pathname} to="/login" replace />;
 };
 
