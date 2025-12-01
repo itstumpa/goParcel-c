@@ -28,6 +28,7 @@ import Payment from "../Pages/Dashboard/Payment/Payment.jsx";
 import PaymentSuccess from "../Pages/Dashboard/Payment/PaymentSuccess.jsx";
 import PaymentCancel from "../Pages/Dashboard/Payment/PaymentCancel.jsx";
 import PaymentsHistory from "../Pages/Dashboard/PaymentsHistory/PaymentsHistory.jsx";
+import ApproveRiders from "../Pages/Dashboard/ApproveRiders/ApproveRiders.jsx";
 
 // Route definitions // Public routes
 const router = createBrowserRouter([
@@ -109,6 +110,7 @@ const router = createBrowserRouter([
       { path: "payment-success", element: <PaymentSuccess /> },
       { path: "payment-cancel", element: <PaymentCancel /> },
       { path: "payments-history", element: <PaymentsHistory /> },
+      { path: "approve-riders", element: <ApproveRiders /> },
     ],
   },
 
