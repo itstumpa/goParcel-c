@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
@@ -35,6 +35,7 @@ const SendParcel = () => {
     },
   });
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
@@ -99,15 +100,16 @@ const SendParcel = () => {
           .then((res) => {
             console.log("after saving parcel", res.data);
             if (res.data.insertedId) {
+              navigate('/dashboard/my-parcels')
               // ✅ Invalidate queries to refetch parcels
-              queryClient.invalidateQueries({
-                queryKey: ["myParcels", user?.email],
-              });
+              // queryClient.invalidateQueries({
+              //   queryKey: ["myParcels", user?.email],
+              // });
 
               // ✅ Show success message
               Swal.fire({
                 title: "Success!",
-                text: "Your parcel has been booked successfully.",
+                text: "Your parcel has been booked successfully.Please proceed to payment.",
                 icon: "success",
                 confirmButtonText: "OK",
               });

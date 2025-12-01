@@ -67,6 +67,7 @@ const handleParcelDelete = async (id) => {
         });
     }
 };
+console.log(parcels)
 
 const handlePayment =async (parcel) => {
   const paymentInfo = {
@@ -116,7 +117,8 @@ const handlePayment =async (parcel) => {
         <td>{parcel.cost}</td>
         <td>
           {
-            parcel.paymentStatus === 'paid' ? <span className='text-green-600 font-bold'>Paid</span> 
+            parcel.paymentStatus === 'Paid' ? <span className='text-green-600 font-bold'>Paid</span> 
+            
             : 
             // <Link to={`/dashboard/payment/${parcel._id}`}>
             <button
