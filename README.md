@@ -1,54 +1,103 @@
-SearchSkills – Skills & Knowledge Exchange Platform
-🌟 Purpose
+# 📦 GoParcel
 
-SearchSkills is a platform designed to connect learners with mentors and professionals across multiple domains. Users can explore courses, book sessions with top mentors, and gain real-world skills through hands-on learning.
+GoParcel is a **MERN stack parcel delivery & management web application** designed to handle the complete parcel lifecycle — from booking to delivery — with **role-based dashboards** for users, delivery agents, and admins.
 
-The platform focuses on skill exchange, personalized learning, and career growth.
+This project focuses on solving real-world logistics problems using modern web technologies and clean architecture.
+
+---
 
 🔗 Live URL
 
-[https://searchskills.netlify.app/]
+[https://goparcel.netlify.app/]
 
+---
 
-🛠 Key Features
+## 🚀 Live Overview
 
-Top Trending Mentors: Display mentors with ratings, advice, and best-selling courses.
+GoParcel digitizes parcel handling by providing:
 
-How It Works Section: Step-by-step guide to help users understand the platform workflow.
+* Online parcel booking
+* Real-time delivery status tracking
+* Role-based access control
+* Centralized admin management
 
-Testimonials / Success Stories: Marquee animation displaying learners’ achievements and feedback.
+---
 
-Responsive Design: Mobile, tablet, and desktop optimized using Tailwind CSS.
+## 🧩 User Roles & Features
 
-Booking System: Users can book sessions through a modal form with react-hot-toast notifications.
+### 👤 User (Customer)
 
-Animated Components: Smooth animations using Framer Motion and react-fast-marquee.
+Users can:
 
-📝 npm Packages Used
+* Register & login securely
+* Create parcel delivery requests
+* Provide sender & receiver details
+* View parcel history
+* Track parcel status (Pending → Picked → Delivered)
 
-react
- – Frontend library
+---
 
-react-fast-marquee
- – Marquee animations for scrolling cards
+### 🚴 Delivery Agent (Rider)
 
-react-hot-toast
- – Toast notifications for actions like booking
+Delivery agents can:
 
-framer-motion
- – Scroll animations and card transitions
+* Login with assigned role
+* View assigned parcels
+* Update delivery status
 
-lucide-react
- – Icons (Star, etc.)
+  * Picked
+  * In Transit
+  * Delivered
+* View completed deliveries
 
-tailwindcss
- – Utility-first CSS framework for responsive design
+---
 
- AOS
- - For smooth animation
+### 🛠 Admin
 
- Animate.css
- - For animation
+Admins can:
 
- Swiper.js
- - slide animation
+* View and manage all users, riders, and parcels
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+
+* React.js
+* React Router
+* Tailwind CSS
+* Framer Motion
+* Axios
+* TanStack React Query
+
+### Backend
+
+* Node.js
+* Express.js
+* RESTful API architecture
+
+### Database
+
+* MongoDB
+
+### Authentication & Security
+
+* Firebase Authentication
+* JWT (JSON Web Token)
+* Role-based protected routes (User / Rider / Admin)
+
+---
+
+## 📌 Future Improvements
+
+* Online payment integration
+* Real-time tracking with maps
+* Delivery analytics dashboard
+* Push notifications
+
+---
+
+## 🧑‍💻 Author
+
+Developed by **Tumpa** — MERN Stack Developer
